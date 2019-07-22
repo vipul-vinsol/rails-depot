@@ -22,6 +22,11 @@
   </div>
 
   <div class="field">
+    <%= form.label :email, 'Email:' %>
+    <%= form.text_field :email, id: :user_email, size: 40 %>
+  </div>
+
+  <div class="field">
     <%= form.label :password, 'Password:' %>
     <%= form.password_field :password, id: :user_password, size: 40 %>
   </div>
