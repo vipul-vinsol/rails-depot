@@ -6,8 +6,8 @@ class Product < ApplicationRecord
 
   before_destroy :ensure_not_referenced_by_any_line_item
 
-  validates :title, :description, :image_url, presence: true
-  validates :price, numericality: { greater_than_or_equal_to: 0.01 }, if: Proc.new { |p| p.price.present? }
+  validates :title, :description, :image_url, :permalink, presence: true
+  validates :price, numericality: { greater_than_or_equal_to: 0.01 }, presence: true
   validates :title, uniqueness: true
   validates :image_url, allow_blank: true, format: {
     with:    %r{\.(gif|jpg|png)\z}i,
@@ -29,25 +29,24 @@ class Product < ApplicationRecord
     record.errors.add(attr, 'Should be between 5 to 10 words') if value.split.length.between?(5, 10)
   end
 
-  # without Custom Method
-  validates :discount_pirce, numericality: { less_than: :price }
+  # Without Custom Method
+  validates :discount_price, numericality: { less_than: :price }
 
   # Custom Method
   # validate :discount_cannot_be_greater_than_total_value
 
-  def discount_cannot_be_greater_than_total_value
-    if discount_pirce > price
-      errors.add(:discount_pirce, "can't be greater than total value")
-    end
-  end
-
   private
-
     # ensure that there are no line items referencing this product
     def ensure_not_referenced_by_any_line_item
       unless line_items.empty?
         errors.add(:base, 'Line Items present')
         throw :aboseptemberrt
+      end
+    end
+
+    def discount_cannot_be_greater_than_total_value
+      if discount_price > price
+        errors.add(:discount_price, "can't be greater than total value")
       end
     end
 end
