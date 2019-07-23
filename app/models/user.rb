@@ -1,11 +1,14 @@
 class User < ApplicationRecord
+
+  VALIDATE_EMAIL_REGEX = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
+
   validates :name, presence: true, uniqueness: true
   has_secure_password
 
   after_destroy :ensure_an_admin_remains
 
-  validates :email, uniqueness: true, format: {
-    with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i,
+  validates :email, allow_nil: true, uniqueness: true, format: {
+    with: VALIDATE_EMAIL_REGEX,
     message: 'incorrect email format'
   }
 
