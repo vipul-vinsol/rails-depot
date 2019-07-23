@@ -10,10 +10,15 @@ class Product < ApplicationRecord
 
   before_destroy :ensure_not_referenced_by_any_line_item
 
+  # Callbacks
+  before_validation :set_conditional_defaults
+  
+
+
   validates :title, :description, :image_url, :permalink, presence: true
   validates :price, numericality: { greater_than_or_equal_to: 0.01 }, if: :price?
   validates :title, uniqueness: true, length: {minimum: 10}
-  
+
   validates :image_url, allow_blank: true, format: {
     with: IMAGE_URL_ENDS_WITH_ALLOWED_FILE_FORMATS_REGEX,
     message: 'must be a URL for GIF, JPG or PNG image.'
@@ -31,12 +36,13 @@ class Product < ApplicationRecord
   validates_each :description do |record, attr, value|
     record.errors.add(attr, 'Should be between 5 to 10 words') if value && value.split.length.between?(5, 10)
   end
-  
+    
   # Without Custom Method
   validates :discount_price, numericality: { less_than: :price }
   
   # Custom Method
   # validate :discount_cannot_be_greater_than_total_value
+ 
 
   private
     # ensure that there are no line items referencing this product
@@ -51,5 +57,10 @@ class Product < ApplicationRecord
       if discount_price > price
         errors.add(:discount_price, "can't be greater than total value")
       end
+    end
+
+    def set_conditional_defaults
+      self.title = 'abc' if title.blank?
+      self.discount_price = price if price.blank?
     end
 end

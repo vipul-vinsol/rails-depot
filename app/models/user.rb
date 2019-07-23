@@ -5,6 +5,9 @@ class User < ApplicationRecord
   validates :name, presence: true, uniqueness: true
   has_secure_password
 
+  after_create :notify_with_welcome_email
+  before_update :check_if_user_is_admin
+  before_destroy :check_if_user_is_admin
   after_destroy :ensure_an_admin_remains
 
   validates :email, allow_nil: true, uniqueness: true, format: {
@@ -20,5 +23,16 @@ class User < ApplicationRecord
       if User.count.zero?
         raise Error.new "Can't delete last user"
       end
-    end     
+    end
+
+    def notify_with_welcome_email
+      UserMailer.created(self).deliver
+    end
+
+    def check_if_user_is_admin
+      if email == 'admin@depot.com'
+        errors.add(:email, 'cannot update or delete admin')
+        throw :abort
+      end
+    end
 end
