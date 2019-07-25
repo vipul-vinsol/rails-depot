@@ -1,0 +1,22 @@
+<% if @user.orders.present? %>
+  <table>
+    <tr>
+      <th> Items</th>
+      <th> Total Price</th>
+    </tr>
+    <% @user.orders.each do |order| %>
+      <tr>
+        <td>
+          <% order.line_items.each do |line_item| %>
+            <%= pluralize(line_item.quantity, line_item.product.title) %>
+          <% end %>
+        </td>
+        <td>
+          <%= order.total_price %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+<% else %>
+  <h1> No Orders Present </h1>
+<% end %>

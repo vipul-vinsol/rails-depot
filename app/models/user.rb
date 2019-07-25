@@ -5,7 +5,7 @@ class User < ApplicationRecord
   validates :name, presence: true, uniqueness: true
   has_secure_password
 
-  after_create :notify_with_welcome_email
+  after_create :notify_with_welcome_email, if: :email?
   before_update :check_if_user_is_admin
   before_destroy :check_if_user_is_admin
   after_destroy :ensure_an_admin_remains
@@ -14,6 +14,10 @@ class User < ApplicationRecord
     with: VALIDATE_EMAIL_REGEX,
     message: 'incorrect email format'
   }
+
+  has_many :orders
+
+  has_many :line_items, through: :orders
 
   class Error < StandardError
   end

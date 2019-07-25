@@ -1,12 +1,5 @@
-#---
-# Excerpted from "Agile Web Development with Rails 5.1",
-# published by The Pragmatic Bookshelf.
-# Copyrights apply to this code. It may not be used to create training material,
-# courses, books, articles, and the like. Contact us if you are in doubt.
-# We make no guarantees that this code is fit for any purpose.
-# Visit http://www.pragmaticprogrammer.com/titles/rails51 for more book information.
-#---
 # encoding: utf-8
+
 Product.delete_all
 Product.create!(title: 'Rails, Angular, Postgres, and Bootstrap',
   description:
@@ -22,8 +15,11 @@ Product.create!(title: 'Rails, Angular, Postgres, and Bootstrap',
       environment.
       </p>},
   image_url: 'dcbang.jpg',    
-  price: 45.00)
-# . . .
+  price: 45.00,
+  enabled: true,
+  discount_price: 24.00,
+  permalink: 'this-will-be-a-perma-link')
+
 Product.create!(title: 'Seven Mobile Apps in Seven Weeks',
   description:
     %{<p>
@@ -35,8 +31,9 @@ Product.create!(title: 'Seven Mobile Apps in Seven Weeks',
       out which cross-platform solution makes the most sense for your needs.
       </p>},
   image_url: '7apps.jpg',
-  price: 26.00)
-# . . .
+  price: 26.00,
+  enabled: true,
+  permalink: 'this-will-be-a-perma-link')
 
 Product.create!(title: 'Ruby Performance Optimization',
   description:
@@ -52,4 +49,6 @@ Product.create!(title: 'Ruby Performance Optimization',
       will run orders of magnitude faster.
       </p>},
   image_url: 'adrpo.jpg',
-  price: 46.00)
+  price: 46.00,
+  enabled: true,
+  permalink: 'this-will-be-a-perma-link')

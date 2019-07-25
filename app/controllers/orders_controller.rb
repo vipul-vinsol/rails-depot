@@ -1,11 +1,3 @@
-#---
-# Excerpted from "Agile Web Development with Rails 5.1",
-# published by The Pragmatic Bookshelf.
-# Copyrights apply to this code. It may not be used to create training material,
-# courses, books, articles, and the like. Contact us if you are in doubt.
-# We make no guarantees that this code is fit for any purpose.
-# Visit http://www.pragmaticprogrammer.com/titles/rails51 for more book information.
-#---
 class OrdersController < ApplicationController
   skip_before_action :authorize, only: [:new, :create]
   include CurrentCart
@@ -36,7 +28,8 @@ class OrdersController < ApplicationController
   # POST /orders
   # POST /orders.json
   def create
-    @order = Order.new(order_params)
+    @user = User.find(session[:user_id])
+    @order = @user.orders.create(order_params)
     @order.add_line_items_from_cart(@cart)
 
     respond_to do |format|

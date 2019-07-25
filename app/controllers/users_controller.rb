@@ -1,13 +1,6 @@
-#---
-# Excerpted from "Agile Web Development with Rails 5.1",
-# published by The Pragmatic Bookshelf.
-# Copyrights apply to this code. It may not be used to create training material,
-# courses, books, articles, and the like. Contact us if you are in doubt.
-# We make no guarantees that this code is fit for any purpose.
-# Visit http://www.pragmaticprogrammer.com/titles/rails51 for more book information.
-#---
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user_from_session, only: [:show_user_orders, :show_user_line_items]
 
   # GET /users
   # GET /users.json
@@ -18,6 +11,12 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+  end
+
+  def show_user_line_items
+  end
+
+  def show_user_orders
   end
 
   # GET /users/new
@@ -82,6 +81,10 @@ class UsersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find(params[:id])
+    end
+
+    def set_user_from_session
+      @user = User.find(session[:user_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
