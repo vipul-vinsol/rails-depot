@@ -44,6 +44,9 @@ class Product < ApplicationRecord
   
   # Custom Method
   # validate :discount_cannot_be_greater_than_total_value
+
+  after_create :increment_count
+  belongs_to :category, counter_cache: :count
  
 
   private
@@ -65,5 +68,11 @@ class Product < ApplicationRecord
       self.title = 'abc' if title.blank?
       self.discount_price = price if discount_price.blank?
     end
+
+    def increment_count
+      parent_category = Category.find(category_id).parent_category_id
+      if parent_category.present?
+        Category.increment_counter(:count, parent_category)
+      end
+    end
 end
-45.0
