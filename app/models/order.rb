@@ -3,6 +3,9 @@ require 'pago'
 
 class Order < ApplicationRecord
   include ActiveModel::Serializers::Xml
+
+  scope :by_date, -> (from = Time.zone.now.midnight, to = Time.zone.now.end_of_day ) { where created_at: from..to  }
+
   enum pay_type: {
     "Check"          => 0, 
     "Credit card"    => 1, 
