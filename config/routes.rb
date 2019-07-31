@@ -7,6 +7,9 @@ Rails.application.routes.draw do
     post 'login' => :create
     delete 'logout' => :destroy
   end
+  namespace :admin do
+    resources :reports, :categories
+  end
 
   resources :users
   resources :products do

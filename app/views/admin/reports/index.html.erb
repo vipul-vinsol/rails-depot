@@ -1,0 +1,34 @@
+<h1> Select date range to view the orders. </h1>
+<br />
+<br />
+<%= form_tag(admin_reports_path, method: 'get') do %>
+  <%= label_tag 'From Date:' %>
+  <%= select_date @from_date, prefix: :from_date %>
+  <%= label_tag 'To Date:' %>
+  <%= select_date @to_date, prefix: :to_date %>
+  <br>
+  <br>
+  <%= submit_tag 'Filter' %>
+<% end %>
+<br />
+<br />
+<% if @orders.present? %>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Address</th>
+      <th>Pay Type</th>
+      <th>Ordered At</th>
+    </tr>
+    <% @orders.each do |order| %>
+      <tr>
+        <td><%= order.name %></td>
+        <td><%= order.email %></td>
+        <td><%= order.address %></td>
+        <td><%= order.pay_type %></td>
+        <td><%= order.created_at %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

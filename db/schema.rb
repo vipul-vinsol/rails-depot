@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_31_065527) do
+ActiveRecord::Schema.define(version: 2019_07_31_143156) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -86,6 +86,14 @@ ActiveRecord::Schema.define(version: 2019_07_31_065527) do
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
+  create_table "pagehits", force: :cascade do |t|
+    t.string "page"
+    t.integer "count", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["page"], name: "index_pagehits_on_page"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -106,6 +114,7 @@ ActiveRecord::Schema.define(version: 2019_07_31_065527) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "email"
+    t.string "role", default: "user"
   end
 
 end
