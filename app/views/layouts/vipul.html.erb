@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pragprog Books Online Store</title>
+    <%= csrf_meta_tags %>
+
+    
+
+    <%= stylesheet_pack_tag "application" %>
+    
+    
+    <%= javascript_include_tag 'application',
+                               'data-turbolinks-track': 'reload' %>
+    <script type="text/javascript">
+      I18n.defaultLocale = "<%= I18n.default_locale %>";
+      I18n.locale        = "<%= I18n.locale %>";
+    </script>
+
+
+  </head>
+
+  <body>
+    <h1>This is the vipul layout</h1>
+    <main class='<%= controller.controller_name %>'>
+      <%= yield %>
+    </main>
+  </body>
+</html>

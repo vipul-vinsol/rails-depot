@@ -6,8 +6,8 @@ class ProductsController < ApplicationController
   def index
     @products = Product.all
     respond_to do |format|
+      format.json { render json: Product.select('products.title AS Name', 'categories.title AS Category').joins(:category) }
       format.html
-      format.xml
     end
   end
 
@@ -19,6 +19,7 @@ class ProductsController < ApplicationController
   # GET /products/new
   def new
     @product = Product.new
+    @categories = Category.all.map {|c| [ c.title, c.id ] }
   end
 
   # GET /products/1/edit
@@ -97,6 +98,7 @@ class ProductsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white
     # list through.
     def product_params
-      params.require(:product).permit(:title, :description, :image_url, :price, :enabled, :discount_price, :permalink)
+      params.require(:product).permit(:title, :description, :image_url, :price, :enabled, 
+        :discount_price, :permalink, :category_id)
     end
 end

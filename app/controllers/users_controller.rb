@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+  layout "vipul", only: [:show_user_orders, :show_user_line_items]
+
+
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :set_user_from_session, only: [:show_user_orders, :show_user_line_items]
 
