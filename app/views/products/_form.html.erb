@@ -24,7 +24,7 @@
 
   <div class="field">
     <%= form.label :image_url %>
-    <%= form.text_field :image_url, id: :product_image_url %>
+    <%= form.hidden_field :image_url, id: :product_image_url, value: 'http://www.image.com/one.jpg' %>
   </div>
 
   <div class="field">
@@ -48,7 +48,13 @@
   </div>  
   <div class="field">
     <%= form.label :category_id %>
-    <%= form.select :category_id, options_for_select(categories), :prompt => "Select one!" %>
+    <% if categories %>
+      <%= form.select :category_id, options_for_select(categories), :prompt => "Select one!" %>
+    <% end %>
+  </div>
+  <div class="field">
+    <%= form.label :product_images %>
+    <%= form.file_field :product_images, multiple: true %>
   </div>
   <div class="actions">
     <%= form.submit %>

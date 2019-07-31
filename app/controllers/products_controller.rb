@@ -24,13 +24,15 @@ class ProductsController < ApplicationController
 
   # GET /products/1/edit
   def edit
+    @categories = Category.all.map {|c| [ c.title, c.id ] }
   end
 
   # POST /products
   # POST /products.json
   def create
     @product = Product.new(product_params)
-
+    @categories = Category.all.map {|c| [ c.title, c.id ] }
+    
     respond_to do |format|
       if @product.save
         format.html { redirect_to @product,
@@ -99,6 +101,6 @@ class ProductsController < ApplicationController
     # list through.
     def product_params
       params.require(:product).permit(:title, :description, :image_url, :price, :enabled, 
-        :discount_price, :permalink, :category_id)
+        :discount_price, :permalink, :category_id, product_images: [])
     end
 end

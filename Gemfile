@@ -72,3 +72,5 @@ gem 'webpacker', '~> 3.0'# START: i18n-js
 
 gem 'i18n-js'
 # END: i18n-js
+
+gem 'mini_magick'

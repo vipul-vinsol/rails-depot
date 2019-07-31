@@ -17,14 +17,15 @@
       <tr class="<%= cycle('list_line_odd', 'list_line_even') %>">
 
         <td class="image">
-          <%= image_tag(product.image_url, class: 'list_image') %>
+          <% product.product_images.each do |product_image| %>
+            <%= image_tag product_image, class: 'product_images' %>
+          <% end %>
         </td>
 
         <td class="description">
           <h1><%= product.title %></h1>
           <p>
-            <%= truncate(strip_tags(product.description),
-                         length: 80) %>
+            <%= truncate(strip_tags(product.description), length: 80) %>
           </p>
         </td>
 
