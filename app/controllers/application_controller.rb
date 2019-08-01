@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   before_action :set_i18n_locale_from_params
   before_action :authorize
   before_action :increment_hit_count_for_page
+  before_action :store_user_ip
 
   protect_from_forgery with: :exception
 
@@ -43,5 +44,9 @@ class ApplicationController < ActionController::Base
         Pagehit.create page: page, count: 1
         @page_hit_count = 1
       end
+    end
+
+    def store_user_ip
+      @user_ip = request.remote_ip
     end
 end

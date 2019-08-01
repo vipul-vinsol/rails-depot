@@ -22,9 +22,9 @@ class Product < ApplicationRecord
   validates :discount_price, allow_blank: true, numericality: { less_than_equal: :price }
   # Custom Method
   # validate :discount_cannot_be_greater_than_total_value
-
-  validate :validate_product_images
-  
+  validate :only_images_can_be_uploaded
+  validate :no_more_than_three_images_can_be_uploaded
+    
   before_validation :set_conditional_defaults
   after_create :increment_count
   
@@ -75,9 +75,15 @@ class Product < ApplicationRecord
       end
     end
 
-    def validate_product_images
+    def only_images_can_be_uploaded
       product_images.each do |product_image|
         errors.add(:product_images, "Only Image files can be uploaded") unless product_image.image?
       end
     end
+    
+    def no_more_than_three_images_can_be_uploaded
+      errors.add(:product_images, "no more than three images can be uploaded") if product_images.size > 3 
+    end    
 end
+
+  
