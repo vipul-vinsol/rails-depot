@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   before_action :authorize
   before_action :increment_hit_count_for_page
   before_action :store_user_ip
+  before_action :check_and_update_logged_in_cookie
 
   protect_from_forgery with: :exception
 
@@ -48,5 +49,13 @@ class ApplicationController < ActionController::Base
 
     def store_user_ip
       @user_ip = request.remote_ip
+    end
+
+    def check_and_update_logged_in_cookie
+      if cookies[:logged_in]
+        cookies.encrypted[:logged_in] = { value: "User is logged in", expires: Time.now + 5.minutes }
+      else
+        redirect_to login_url, notice: "You have been logged out due to inactivity, Please login again"
+      end
     end
 end
