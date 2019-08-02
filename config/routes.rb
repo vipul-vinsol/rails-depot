@@ -12,8 +12,6 @@ Rails.application.routes.draw do
     delete 'logout' => :destroy
   end
 
-
-
   scope '(:locale)' do
     get '/users/orders', to: 'users#show_user_orders'
     get '/users/line_items', to: 'users#show_user_line_items'
@@ -32,12 +30,11 @@ Rails.application.routes.draw do
     resources :line_items
     resources :carts
     resources :categories
-    resources :books, controller: 'products'
     resources :ratings
     root 'store#index', as: 'store_index', via: :all
   end
 
-  resources :products do
+  resources :products, path: :books do
     get :who_bought, on: :member
   end
 end

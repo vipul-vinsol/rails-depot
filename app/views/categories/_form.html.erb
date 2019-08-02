@@ -1,0 +1,16 @@
+<%= form_with(model: category, local: true) do |form| %>
+  <% if category.errors.any? %>
+    <%= render "form_errors/form_errors", model_object: category %>
+  <% end %>
+  <div class="field">
+    <%= form.label :title %>
+    <%= form.text_field :title, id: :category_title %>
+  </div>
+  <div class="field">
+    <%= form.label :parent_category_id %>
+    <%= form.number_field :parent_category_id,  min: 0, id: :category_parent_category_id %>
+  </div>
+  <div class="actions">
+    <%= form.submit 'Create'%>
+  </div>
+<% end %>
