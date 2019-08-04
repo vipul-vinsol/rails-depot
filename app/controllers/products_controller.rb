@@ -14,6 +14,7 @@ class ProductsController < ApplicationController
   # GET /products/1
   # GET /products/1.json
   def show
+    get_rating_object
   end
 
   # GET /products/new
@@ -102,5 +103,14 @@ class ProductsController < ApplicationController
     def product_params
       params.require(:product).permit(:title, :description, :image_url, :price, :enabled, 
         :discount_price, :permalink, :category_id, product_images: [])
+    end
+
+    def get_rating_object
+      if @product.ratings.exists?
+        @rating = Rating.new
+        @rating = @product.ratings.find { |rating| rating.user_id = current_user.id }
+      else
+        @rating = Rating.new
+      end
     end
 end

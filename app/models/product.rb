@@ -31,6 +31,7 @@ class Product < ApplicationRecord
   belongs_to :category, counter_cache: :count
   has_many :carts, through: :line_items
   has_many :orders, through: :line_items
+  has_many :ratings, dependent: :destroy
   has_many :line_items, dependent: :restrict_with_exception
 
   has_many_attached :product_images
