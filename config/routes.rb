@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
-  constraints user_agent: /Firefox/ do
-    root 'store#index'
-    match '*url', to: redirect('/404'), via: :all
-  end
+  # constraints user_agent: /Firefox/ do
+  #   root 'store#index'
+  #   #  match '*url', to: redirect('/404'), via: :all
+  # end
 
   get 'admin' => 'admin#index'
 
@@ -19,7 +19,8 @@ Rails.application.routes.draw do
     get '/admin/report'
     get '/my-orders', to: 'users#show_user_orders'
     get '/my-items', to: 'users#show_user_line_items'
-    get '/categories/:id/books', to: 'categories#show_products', id: /\d*/, as: 'categories_show_products'
+    get '/categories/:id/books', to: 'categories#show_products', id: /\d*/,
+        as: 'categories_show_products'
     get '/categories/:id/books', to: redirect('/')
 
     namespace :admin do

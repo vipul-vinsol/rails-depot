@@ -54,6 +54,7 @@ class ApplicationController < ActionController::Base
     def check_and_update_logged_in_cookie
       if cookies[:logged_in]
         cookies.encrypted[:logged_in] = { value: "User is logged in", expires: Time.now + 5.minutes }
+      elsif request.fullpath =~ /\/login/
       else
         redirect_to login_url, notice: "You have been logged out due to inactivity, Please login again"
       end
