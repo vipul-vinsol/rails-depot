@@ -37,7 +37,7 @@ class OrdersController < ApplicationController
         Cart.destroy(session[:cart_id])
         session[:cart_id] = nil
         ChargeOrderJob.perform_later(@order,pay_type_params.to_h)
-        format.html { redirect_to store_index_url(locale: I18n.locale), 
+        format.html { redirect_to store_index_url(locale: I18n.locale),
           notice: I18n.t('.thanks') }
         format.json { render :show, status: :created,
           location: @order }
@@ -76,6 +76,7 @@ class OrdersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_order
+      # Handle
       @order = Order.find(params[:id])
     end
 
@@ -92,7 +93,7 @@ class OrdersController < ApplicationController
        end
      end
 
-      
+
     def pay_type_params
       if order_params[:pay_type] == "Credit Card"
         params.require(:order).permit(:credit_card_number, :expiration_date)

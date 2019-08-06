@@ -9,6 +9,7 @@ class HandleAjaxRequest {
   }
 
   ajaxSuccessRequest() {
+    // Redundant parameters
     this.formElement.on("ajax:success", function(event, data, status, xhr) {
       alert('Product successfully rated');
     });

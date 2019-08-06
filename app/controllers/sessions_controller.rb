@@ -16,7 +16,7 @@ class SessionsController < ApplicationController
     if user.try(:authenticate, params[:password])
       session[:user_id] = user.id
       I18n.locale = user.language
-      if user.role == 'admin'
+      if user.role == 'admin' # enum
         redirect_to admin_reports_url
       else
         redirect_to admin_url
