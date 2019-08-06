@@ -1,5 +1,5 @@
 class Admin::ReportsController < Admin::BaseController
-  before_action :ensure_admin_can_access
+  before_action :ensure_admin_can_access #this should be in base_controller
   before_action :set_from_to_date
 
   def index

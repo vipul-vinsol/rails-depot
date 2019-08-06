@@ -1,6 +1,7 @@
 class User < ApplicationRecord
 
   #TODO Naming issue.
+  # create role as enum.
   VALIDATE_EMAIL_REGEX = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
 
   #TODO uniqueness missing allow_blank
