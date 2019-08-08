@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
           I18n.locale = params[:locale]
         else
           flash.now[:notice] =
-            "#{params[:locale]} translation not available" #I18n
+            "#{params[:locale]} translation not available"
           logger.error flash.now[:notice]
         end
       end
@@ -36,9 +36,9 @@ class ApplicationController < ActionController::Base
 
     def increment_hit_count_for_page
       page = request.fullpath
-      page_hit = Pagehit.find_by(page: page) # Use exists if checking in db for existence.
-      if page_hit.present?
-        page_hit.count = page_hit.count + 1 # no logic should be in controller. Create a method in page hit to increase the value.(send number by args, take 1 as default)
+      if Pagehit.exists?(page: page)
+        page_hit_count = Pagehit.find_by(page: page)
+        page_hit.count = page_hit.count + 1 
         page_hit.save
         @page_hit_count = page_hit.count
       else
@@ -54,9 +54,9 @@ class ApplicationController < ActionController::Base
     def check_and_update_logged_in_cookie
       if cookies[:logged_in]
         cookies.encrypted[:logged_in] = { value: "User is logged in", expires: Time.now + 5.minutes }
-      elsif request.fullpath =~ /\/login/
-      else
-        redirect_to login_url, notice: "You have been logged out due to inactivity, Please login again" # I18n
+      elsif request.fullpath !~ /\/login/
+        redirect_to login_url, 
+          notice: "You have been logged out due to inactivity, Please login again"
       end
     end
 end

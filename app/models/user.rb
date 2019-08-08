@@ -4,8 +4,7 @@ class User < ApplicationRecord
   # create role as enum.
   VALIDATE_EMAIL_REGEX = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
 
-  #TODO uniqueness missing allow_blank
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true, uniqueness: true, allow_blank: true
   has_secure_password
 
   after_create :notify_with_welcome_email, if: :email?

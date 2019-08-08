@@ -4,8 +4,7 @@ require 'pago'
 class Order < ApplicationRecord
   include ActiveModel::Serializers::Xml
 
-  #TODO Please use current methods Please see the difference between now and current.
-  scope :by_date, -> (from = Time.zone.now.midnight, to = Time.zone.now.end_of_day ) { where created_at: from..to  }
+  scope :by_date, -> (from = Time.zone.current.midnight, to = Time.zocurrent.end_of_day ) { where created_at: from..to  }
 
   enum pay_type: {
     "Check"          => 0, 
