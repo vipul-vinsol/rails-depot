@@ -1,0 +1,9 @@
+<div id="error_explanation">
+  <h2><%=raw t('activerecord.errors.template.header',count: model_object.errors.count, model: eval("#{model_object.class}" + '.model_name.human')) %></h2>
+  <p><%= t('activerecord.errors.template.body') %></p>
+  <ul>
+    <% model_object.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+</div>

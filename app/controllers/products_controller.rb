@@ -6,30 +6,34 @@ class ProductsController < ApplicationController
   def index
     @products = Product.all
     respond_to do |format|
+      format.json { render json: Product.select('products.title AS Name', 'categories.title AS Category').joins(:category) }
       format.html
-      format.xml
     end
   end
 
   # GET /products/1
   # GET /products/1.json
   def show
+    get_rating_object
   end
 
   # GET /products/new
   def new
     @product = Product.new
+    @categories = Category.all.map {|c| [ c.title, c.id ] }
   end
 
   # GET /products/1/edit
   def edit
+    @categories = Category.all.map {|c| [ c.title, c.id ] }
   end
 
   # POST /products
   # POST /products.json
   def create
     @product = Product.new(product_params)
-
+    @categories = Category.all.map {|c| [ c.title, c.id ] }
+    
     respond_to do |format|
       if @product.save
         format.html { redirect_to @product,
@@ -97,6 +101,16 @@ class ProductsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white
     # list through.
     def product_params
-      params.require(:product).permit(:title, :description, :image_url, :price, :enabled, :discount_price, :permalink)
+      params.require(:product).permit(:title, :description, :image_url, :price, :enabled, 
+        :discount_price, :permalink, :category_id, product_images: [])
+    end
+
+    def get_rating_object
+      if @product.ratings.exists?
+        @rating = Rating.new
+        @rating = @product.ratings.find { |rating| rating.user_id = current_user.id }
+      else
+        @rating = Rating.new
+      end
     end
 end

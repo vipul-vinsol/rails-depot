@@ -1,0 +1,161 @@
+hi:
+  order_mailer:
+    received:
+      received: 'हमने आपका ऑर्डर प्राप्त कर लिया है और हम इसे जल्द ही भेज देंगे।'
+      subject: "आदेश की पुष्टि"
+      greeting: "नमस्ते %{name}"
+      Name: 'नाम'
+      Price: 'मूल्य'
+      Discount: 'छूट'
+      Quantity: 'मात्रा'
+      Image: 'छवि'
+      title: "%{title}"
+      price_value: "%{price_value}"
+      discount_price_value: "%{discount_price_value}"
+      quantity_value: "%{quantity_value}"
+      total: 'कुल कीमत %{total}'
+      no_item: 'कोई चीज़ नहीं'
+
+  user_mailer:
+    consolidate_mail:
+      product: 'उत्पाद आइ डि'
+      Quantity: 'मात्रा'
+      title: "%{title}"
+      quantity_value: "%{quantity_value}"
+      no_item: 'कोई चीज़ नहीं'
+      subject: "समेकित आदेश सारांश"
+      no_item: 'कोई चीज़ नहीं'
+      total: 'कुल'
+      items: 'आइटम'
+      total_price: 'कुल कीमत %{total_price}'
+
+  activerecord:
+    errors:
+      models:
+        product:
+          attributes:
+            description:
+              invalid: 'में केवल 5 से 10 शब्द हो सकते हैं'
+        category:
+          attributes:
+            title:
+              taken: 'का उपयोग नहीं किया जा सकता। यह पहले से ही एक उप-श्रेणी का नाम है'
+        order:
+          attributes:
+            name:
+              inclusion: 'सूची में शामिल नहीं है'
+
+      messages:
+        blank: 'रिक्त नहीं हो सकता'
+        taken: 'पहले से ही लिया गया है'
+        greater_than_or_equal_to: '%{count} या अधिक के बराबर होना चाहिए'
+        inclusion: 'सूची में शामिल नहीं है'
+        invalid: 'अमान्य है'
+        not_an_integer: 'एक पूर्णांक नहीं है'
+      template:
+        body: 'निम्नलिखित क्षेत्रों में समस्याएं थीं:'
+        header:
+          one: '1 त्रुटि ने इस %{model} को सहेजने से रोक दिया था'
+          other: '%{count} त्रुटियों को सहेजने से इस %{model} को निषिद्ध किया गया था'
+
+    models:
+      product: 'उत्पाद'
+      order:   'औडर'
+      user:    'उपयोगकर्ता'
+      address: 'पता'
+      category: 'वर्ग'
+    attributes:
+      product:
+        price:          'मूल्य'
+        permalink:      'स्थायी लिंक'
+        description:    'विवरण'
+        categories:     'श्रेणियाँ'
+      order:
+        name: 'नाम'
+        address:   'पता'
+        email:          'ईमेल'
+        pay_type:       'भुगतान प्रकार'
+      user:
+        name:           'नाम'
+        email:          'ईमेल'
+        language_preference: 'भाषा वरीयता'
+        password:       'पारण शब्द'
+      address:
+        city:           'शहर'
+        state:          'राज्य'
+        country:        'देश'
+        pincode:        'पिन कोड'
+      category:
+        title:           'नाम'
+        parent_category_id: 'अभिभावक कैटीरी आईडी'
+
+  categories:
+    create:
+      create_flash: 'श्रेणी सफलतापूर्वक बनाई गई थी'
+    update:
+      update_flash: 'श्रेणी को सफलतापूर्वक अपडेट किया गया था'
+    destroy:
+      destroy_flash: 'श्रेणी को सफलतापूर्वक नष्ट कर दिया गया था'
+
+  carts:
+    create:
+      create_flash: 'कार्ट सफलतापूर्वक बनाया गया था'
+    update:
+      update_flash: 'कार्ट सफलतापूर्वक अपडेट किया गया था'
+    invalid_cart_flash: 'अमान्य कार्ट'
+
+  line_items:
+    update:
+      update_flash: 'लाइन आइटम को सफलतापूर्वक अपडेट किया गया था'
+    destroy:
+      destroy_flash: 'लाइन आइटम को सफलतापूर्वक नष्ट कर दिया गया था'
+
+  orders:
+    update:
+      update_flash: 'औडर को सफलतापूर्वक अपडेट किया गया था'
+    destroy:
+      destroy_flash: 'औडर को सफलतापूर्वक नष्ट कर दिया गया था'
+    view:
+      empty_cart_flash: 'आपकी कार्ट खाली है'
+
+  products:
+    create:
+      create_flash: 'उत्पाद सफलतापूर्वक बनाया गया था'
+    update:
+      update_flash: 'उत्पाद को सफलतापूर्वक नष्ट कर दिया गया था'
+    destroy:
+      destroy_flash: 'उत्पाद को सफलतापूर्वक नष्ट कर दिया गया था'
+
+  sessions:
+    create:
+      invalid_login_flash: 'अमान्य उपयोगकर्ता / पासवर्ड संयोजन'
+    destroy:
+      logged_out_flash: 'बाहर आ गये'
+
+  users:
+    create:
+      create_flash: 'उपयोगकर्ता %{user_name} सफलतापूर्वक बनाया गया था'
+    update:
+      update_flash: 'उपयोगकर्ता %{user_name} को सफलतापूर्वक नष्ट कर दिया गया था'
+    destroy:
+      destroy_flash: 'उपयोगकर्ता %{user_name} सफलतापूर्वक नष्ट कर दिया गया था'
+
+  admin:
+    base:
+      restricted_access_flash: "इस खंड में पहुंचने के लिए आपके पास विशेषाधिकार नहीं है"
+
+  application:
+    log_in_flash: "कृपया लॉगिन करें"
+    translation_invalid_flash: "%{invalid_locale} अनुवाद उपलब्ध नहीं है"
+
+
+  store:
+    index:
+      title_html: 'सूची'
+      add_html: 'कार्ट में डालें'
+
+
+  greeting: 'नमस्कार'
+  thanks: 'धन्यवाद'
+
+  invalid_credentials: 'कृपया अपने लॉगिन क्रेडेंशियल्स की जांच करें'

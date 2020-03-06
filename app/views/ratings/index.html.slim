@@ -1,0 +1,21 @@
+h1 Listing ratings
+
+table
+  thead
+    tr
+      th Value
+      th
+      th
+      th
+
+  tbody
+    - @ratings.each do |rating|
+      tr
+        td = rating.value
+        td = link_to 'Show', rating
+        td = link_to 'Edit', edit_rating_path(rating)
+        td = link_to 'Destroy', rating, data: { confirm: 'Are you sure?' }, method: :delete
+
+br
+
+= link_to 'New Rating', new_rating_path

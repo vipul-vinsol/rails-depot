@@ -1,0 +1,12 @@
+<h2>Category Products</h2>
+<% if @category_products.present? %>
+  <%= render 'show_products', products: @category_products %>
+<% else %>
+  <p><strong>No category products </strong></p>
+<% end %>
+<h2>Sub Category Products</h2>
+<% if @sub_category_products.present? %>
+  <%= render 'show_products', products: @sub_category_products %>
+<% else %>
+  <p><strong>No Sub category products </strong></p>
+<% end %>

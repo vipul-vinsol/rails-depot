@@ -1,0 +1,13 @@
+<%= form_with(model: rating, html: { class: 'rating-form' }) do |form| %>
+<div class="field">
+  <%= form.select(:value, (0..5).step(0.5).to_a, prompt: 'Not rated') %>
+</div>
+
+<% if @rating.id.nil? %>
+<%= hidden_field(:product, :id) %>
+<% end %>
+
+<div class="actions">
+  <%= form.submit 'Rate' %>
+</div>
+<% end %>

@@ -1,0 +1,26 @@
+<h1><%= t('.greeting', name: @order.name) %></h1>
+<h2><%= t('.received') %></h2>
+<% if @order.line_items.present? %>
+  <table border="1">
+    <tr>
+      <th><%= t('.Name') %></th>
+      <th><%= t('.Price') %></th>
+      <th><%= t('.Discount') %></th>
+      <th><%= t('.Quantity') %></th>
+      <th><%= t('.Image') %></th>
+    </tr>
+    </tr>
+    <% @order.line_items.each do |line_item| %>
+      <tr>
+        <td><%= t('.title', title: line_item.product.title) %></td>
+        <td><%= t('.price_value', price_value: line_item.product.price) %></td>
+        <td><%= t('.discount_price_value', discount_price_value: line_item.product.discount_price) %></td>
+        <td><%= t('.quantity_value', quantity_value: line_item.quantity) %></td>
+        <td><%= image_tag attachments[line_item.product.image_url].url, height: '20px', width: '20px' %></td>
+      </tr>
+    <% end %>
+  </table>
+  <p><strong><%= t('.total', total: @order.total_price)  %></strong></p>
+<% else %>
+  <h5> <%= t('.no_item') %></h5>
+<% end %>

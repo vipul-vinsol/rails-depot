@@ -1,0 +1,20 @@
+<% if @categories.present? %>
+  <table border=1>
+    <tr>
+      <th> Category Name </th>
+      <th> Sub-Category Name</th>
+    </tr>
+    <% @categories.each do |category| %>
+      <tr>
+        <td><%= category.title %> </td>
+        <td>
+          <% if category.sub_categories.present? %>
+            <% category.sub_categories.each do |sub_category| %>
+              <%= sub_category.title %>
+            <% end %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

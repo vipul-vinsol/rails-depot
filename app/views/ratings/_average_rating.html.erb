@@ -1,0 +1,6 @@
+Average Rating:
+<% if product.ratings.exists? %>
+  <p class="average-rating"><%= product.ratings.average(:value) %></p>
+<% else %>
+   Not yet rated
+<% end %>

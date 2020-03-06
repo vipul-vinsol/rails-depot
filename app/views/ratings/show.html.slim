@@ -1,0 +1,9 @@
+p#notice = notice
+
+p
+  strong Value:
+  = @rating.value
+
+=> link_to 'Edit', edit_rating_path(@rating)
+'|
+=< link_to 'Back', ratings_path

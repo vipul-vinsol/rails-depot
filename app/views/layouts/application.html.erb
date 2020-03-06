@@ -4,21 +4,16 @@
     <title>Pragprog Books Online Store</title>
     <%= csrf_meta_tags %>
 
-    
-
     <%= stylesheet_pack_tag "application" %>
     
-    
-    <%= javascript_include_tag 'application',
-                               'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag "rating_update", "data-turbolinks-track" => 'reload' %>
+
     <script type="text/javascript">
       I18n.defaultLocale = "<%= I18n.default_locale %>";
       I18n.locale        = "<%= I18n.locale %>";
     </script>
-
-
   </head>
-
   <body>
     <header class="main">
       <aside>
@@ -62,5 +57,9 @@
         <%= yield %>
       </main>
     </div>
+    <footer class='footer'>
+      <span> <%= @user_ip %> </span>
+      <h3> There are <%= @page_hit_count %> hits on this page </h3>
+    </footer>
   </body>
 </html>

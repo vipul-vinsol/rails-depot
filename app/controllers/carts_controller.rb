@@ -2,7 +2,7 @@ class CartsController < ApplicationController
   skip_before_action :authorize, only: [:create, :update, :destroy]
   before_action :set_cart, only: [:show, :edit, :update, :destroy]
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_cart
-  
+
   # GET /carts
   # GET /carts.json
   def index
@@ -55,6 +55,7 @@ class CartsController < ApplicationController
   # DELETE /carts/1
   # DELETE /carts/1.json
   def destroy
+    # Cart not found scenario
     @cart.destroy if @cart.id == session[:cart_id]
     session[:cart_id] = nil
     respond_to do |format|
@@ -71,6 +72,7 @@ class CartsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def cart_params
+      # Update this
       params.fetch(:cart, {})
     end
 

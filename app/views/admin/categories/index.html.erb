@@ -1,0 +1,21 @@
+<h1>Categories </h1>
+<% if @categories.present? %>
+  <table>
+    <tr>
+      <th>Category Name</th>
+      <th>Parent Category Name</th>
+      <th>Total Products</th>
+    </tr>
+    <% @categories.each do |category| %>
+      <tr>
+        <td><%= category.title %></td>
+        <% if category.parent_category.present? %>
+          <td><%= category.parent_category.title %></td>
+        <% else %>
+          <td> Root Category</td>
+        <% end %>
+        <td><%= category.count %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

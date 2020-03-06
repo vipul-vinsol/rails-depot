@@ -1,79 +1,66 @@
-# TODO Please follow 2 space indentation and remove white spaces.
-
 require 'active_model/serializers/xml'
 class Product < ApplicationRecord
-
-  IMAGE_URL_ENDS_WITH_ALLOWED_FILE_FORMATS_REGEX = %r{\.(gif|jpg|png)\z}i
-  #TODO Why is the format needed here?
-  PERMALINK_FORMAT_REGEX = %r{\A[a-zA-Z0-9\-]+\z}
-
   include ActiveModel::Serializers::Xml
 
-  scope :enabled, -> { where enabled: true }
+  IMAGE_URL_ENDS_WITH_ALLOWED_FILE_FORMATS_REGEX = %r{\.(gif|jpg|png)\z}i
+  PERMALINK_REGEX = %r{\A[a-zA-Z0-9\-]+\z}
 
-  has_many :carts, through: :line_items
-  has_many :orders, through: :line_items
-  has_many :line_items, dependent: :restrict_with_exception
-
-  #TODO Why is this a callback?
-  before_destroy :ensure_not_referenced_by_any_line_item
-  before_validation :set_conditional_defaults
-  
-  #TODO Why is presence missing on price?
-  validates :title, :description, :image_url, :permalink, presence: true
-  #TODO Why is :price? needed. And use allow_nil
-  #TODO Please use greater_than
-  validates :price, numericality: { greater_than_or_equal_to: 0.01 }, if: :price?
-  #TODO Please use allow_blank
-  validates :title, uniqueness: true, length: {minimum: 10}
-
-  #Please use with_options
+  validates :title, :description, :price, :image_url, :permalink, :category_id, presence: true
+  validates :price, numericality: { greater_than: 0 }, allow_blank: true
+  validates :title, uniqueness: true, length: { minimum: 10 }, allow_blank: true
   validates :image_url, allow_blank: true, format: {
     with: IMAGE_URL_ENDS_WITH_ALLOWED_FILE_FORMATS_REGEX,
     message: 'must be a URL for GIF, JPG or PNG image.'
   }, url: true
-  
   validates :permalink, allow_blank: true, uniqueness: true, format: {
-    with: PERMALINK_FORMAT_REGEX,
+    with: PERMALINK_REGEX,
     message: 'Invalid format'
   }
-  
-  #TODO Move this to a method
-  validates_each :permalink do |record, attr, value|
-    #TODO Use allow_black instead of checking for presence
-    record.errors.add(attr, 'Invalid format') if value.present? && value.split('-').length < 3 
-  end
-
-  #TODO Move this to a method
-  validates_each :description do |record, attr, value|
-    #TODO Use allow_black instead of checking for presence
-    if value.present? && !value.split.length.between?(5, 10)
-      record.errors.add(attr, 'Should be between 5 to 10 words')
-    end
-  end
-    
+  validate :description_should_be_between_five_to_ten_words
+  validate :permalink_should_have_minimum_three_words_hypen_seprated
   # Without Custom Method
   validates :discount_price, allow_blank: true, numericality: { less_than_equal: :price }
-  
   # Custom Method
   # validate :discount_cannot_be_greater_than_total_value
-
+  validate :only_images_can_be_uploaded
+  validate :no_more_than_three_images_can_be_uploaded
+    
+  before_validation :set_conditional_defaults
   after_create :increment_count
+  
   belongs_to :category, counter_cache: :count
- 
+  has_many :carts, through: :line_items
+  has_many :orders, through: :line_items
+  has_many :ratings, dependent: :destroy
+  has_many :line_items, dependent: :restrict_with_exception
 
+  has_many_attached :product_images
+
+  scope :enabled, -> { where enabled: true }
+ 
   private
     # ensure that there are no line items referencing this product
-    def ensure_not_referenced_by_any_line_item
-      unless line_items.empty?
-        errors.add(:base, 'Line Items present')
-        throw :abort
-      end
-    end
+    # def not_referenced_by_any_line_item
+    #   unless line_items.empty?
+    #     errors.add(:base, 'Line Items present')
+    #   end
+    # end
 
     def discount_cannot_be_greater_than_total_value
       if discount_price >= price
         errors.add(:discount_price, "can't be greater than total value")
+      end
+    end
+
+    def description_should_be_between_five_to_ten_words
+      if description.present? && !description.split.length.between?(5, 10)
+        errors.add(:description, "Description can only be between 5 to 10 words") 
+      end
+    end
+
+    def permalink_should_have_minimum_three_words_hypen_seprated
+      if permalink.present? && permalink.split('-').length < 3
+        errors.add(:permalink, "Should have minimum three words hypen seprated")
       end
     end
 
@@ -83,10 +70,21 @@ class Product < ApplicationRecord
     end
 
     def increment_count
-      #TODO Please use association instead of finding through the entire set.
-      parent_category = Category.find(category_id).parent_category_id
-      if parent_category.present?
-        Category.increment_counter(:count, parent_category)
+      parent = category.parent_id
+      if parent.present?
+        Category.increment_counter(:count, parent)
       end
     end
+
+    def only_images_can_be_uploaded
+      product_images.each do |product_image|
+        errors.add(:product_images, "Only Image files can be uploaded") unless product_image.image?
+      end
+    end
+    
+    def no_more_than_three_images_can_be_uploaded
+      errors.add(:product_images, "no more than three images can be uploaded") if product_images.size > 3 
+    end    
 end
+
+  

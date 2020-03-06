@@ -35,8 +35,9 @@ class LineItemsController < ApplicationController
   # POST /line_items
   # POST /line_items.json
   def create
+    # Handle case
     product = Product.find(params[:product_id])
-    @line_item = @cart.add_product(product)
+    @line_item = @cart.update_product_in_cart(product)
 
     respond_to do |format|
       if @line_item.save
@@ -48,6 +49,7 @@ class LineItemsController < ApplicationController
         format.html { render :new }
         format.json { render json: @line_item.errors,
           status: :unprocessable_entity }
+        # Study about unprocessable entity
       end
     end
   end
@@ -79,6 +81,7 @@ class LineItemsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_line_item
+      # Change this everwhere.
       @line_item = LineItem.find(params[:id])
     end
 
